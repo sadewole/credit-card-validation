@@ -23,12 +23,14 @@ export default function App() {
   const [error, setError] = useState({});
 
   const handleBlur = (name, length) => () => {
-    if(data[name].length < length){
-  setError((prev) => ({ ...prev, [name]: true }));
-    }else {
-  setError((prev) => ({ ...prev, [name]: false }));
+    if (data[name].length < length) {
+      setError((prev) => ({ ...prev, [name]: true }));
+    } else {
+      setError((prev) => ({ ...prev, [name]: false }));
     }
   };
+
+  const handleSubmit = () => {};
 
   return (
     <SafeAreaView style={styles.container}>
@@ -70,7 +72,7 @@ export default function App() {
                       text
                     );
                     setData((prev) => ({ ...prev, expiryDate }));
-                                setError((prev) => ({ ...prev, expiryDate: false }));
+                    setError((prev) => ({ ...prev, expiryDate: false }));
                   }}
                 />
               </ShakeView>
@@ -85,7 +87,7 @@ export default function App() {
                   onBlur={handleBlur('cvv', 3)}
                   onChangeText={(text) => {
                     setData((prev) => ({ ...prev, cvv: text }));
-                                setError((prev) => ({ ...prev, cvv: false }));
+                    setError((prev) => ({ ...prev, cvv: false }));
                   }}
                 />
               </ShakeView>
