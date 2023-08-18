@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {
   SafeAreaView,
@@ -7,45 +7,28 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Animated,
-  Easing,
 } from 'react-native';
 import {
   cardNumberFormatter,
   expirationDateFormatter,
 } from './utils/formatter';
+import { ShakeView } from './components/ShakeView';
 
 export default function App() {
-  const [state, setState] = useState({
+  const [data, setData] = useState({
     cardNumber: '',
     expiryDate: '',
     cvv: '',
   });
-  const animatedTranslateX = useRef(new Animated.Value(0)).current;
+  const [error, setError] = useState({});
 
-  Animated.timing(animatedTranslateX, {
-    toValue: 1,
-    duration: 100,
-    easing: Easing.ease,
-  }).start(() => {
-    Animated.timing(animatedTranslateX, {
-      toValue: 1,
-      duration: 100,
-      easing: Easing.ease,
-    }).start(() => {
-      Animated.timing(animatedTranslateX, {
-        toValue: 1,
-        duration: 100,
-        easing: Easing.ease,
-      }).start(() => {
-        Animated.timing(animatedTranslateX, {
-          toValue: 1,
-          duration: 100,
-          easing: Easing.ease,
-        }).start();
-      });
-    });
-  });
+  const handleBlur = (name, length) => () => {
+    if(data[name].length < length){
+  setError((prev) => ({ ...prev, [name]: true }));
+    }else {
+  setError((prev) => ({ ...prev, [name]: false }));
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -56,39 +39,56 @@ export default function App() {
         <View style={{ flex: 1 }}>
           <View style={{ marginBottom: 16 }}>
             <Text style={styles.textColor}>Card number</Text>
-            <TextInput
-              style={styles.textInput}
-              placeholder='**** **** **** ****'
-              value={state.cardNumber}
-              maxLength={19}
-              onChangeText={(text) => {
-                const cardNumber = cardNumberFormatter(state.cardNumber, text);
-                setState((prev) => ({ ...prev, cardNumber }));
-              }}
-            />
+            <ShakeView isInvalid={error.cardNumber}>
+              <TextInput
+                style={styles.textInput}
+                placeholder='**** **** **** ****'
+                value={data.cardNumber}
+                onBlur={handleBlur('cardNumber', 19)}
+                maxLength={19}
+                onChangeText={(text) => {
+                  const cardNumber = cardNumberFormatter(data.cardNumber, text);
+                  setData((prev) => ({ ...prev, cardNumber }));
+                  setError((prev) => ({ ...prev, cardNumber: false }));
+                }}
+              />
+            </ShakeView>
           </View>
           <View style={{ flexDirection: 'row', gap: 16 }}>
             <View style={{ flex: 1 }}>
               <Text style={styles.textColor}>Expiry date</Text>
-              <Animated.View>
+              <ShakeView isInvalid={error.expiryDate}>
                 <TextInput
                   style={styles.textInput}
                   placeholder='00/00'
-                  value={state.expiryDate}
+                  value={data.expiryDate}
+                  onBlur={handleBlur('expiryDate', 5)}
                   maxLength={5}
                   onChangeText={(text) => {
                     const expiryDate = expirationDateFormatter(
-                      state.expiryDate,
+                      data.expiryDate,
                       text
                     );
-                    setState((prev) => ({ ...prev, expiryDate }));
+                    setData((prev) => ({ ...prev, expiryDate }));
+                                setError((prev) => ({ ...prev, expiryDate: false }));
                   }}
                 />
-              </Animated.View>
+              </ShakeView>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.textColor}>CVV</Text>
-              <TextInput style={styles.textInput} maxLength={3} />
+              <ShakeView isInvalid={error.cvv}>
+                <TextInput
+                  style={styles.textInput}
+                  value={data.cvv}
+                  maxLength={3}
+                  onBlur={handleBlur('cvv', 3)}
+                  onChangeText={(text) => {
+                    setData((prev) => ({ ...prev, cvv: text }));
+                                setError((prev) => ({ ...prev, cvv: false }));
+                  }}
+                />
+              </ShakeView>
             </View>
           </View>
         </View>

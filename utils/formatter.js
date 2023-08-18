@@ -1,4 +1,4 @@
-const trimPattern = (value: string, pattern: string) => {
+const trimPattern = (value, pattern) => {
   if (value.endsWith(pattern)) {
     let trimmedStr = value.slice(0, value.length - pattern.length);
     return trimmedStr;
@@ -8,9 +8,9 @@ const trimPattern = (value: string, pattern: string) => {
 };
 
 export function cardNumberFormatter(
-  oldValue: string,
-  newValue: string
-): string {
+  oldValue,
+  newValue
+) {
   const pattern = ' ';
   // user is deleting so return without formatting
   if (oldValue.length > newValue.length) {
@@ -27,9 +27,9 @@ export function cardNumberFormatter(
 }
 
 export function expirationDateFormatter(
-  oldValue: string,
-  newValue: string
-): string {
+  oldValue,
+  newValue
+) {
   // user is deleting so return without formatting
   if (oldValue.length > newValue.length) {
     return trimPattern(newValue, '/');
