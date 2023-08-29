@@ -9,14 +9,20 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/metro-config": "^0.10.7",
+    "card-validator": "^8.1.1",
     "expo": "~48.0.18",
     "expo-status-bar": "~1.4.4",
     "react": "18.2.0",
-    "react-native": "0.71.8"
+    "react-native": "0.71.8",
+    "react-native-actions-sheet": "^0.8.3",
+    "react-native-gesture-handler": "~2.9.0",
+    "react-native-svg": "13.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@types/react": "^18.2.15"
+    "@types/react": "~18.0.27",
+    "react-native-svg-transformer": "^1.1.0"
   },
   "private": true
 }
