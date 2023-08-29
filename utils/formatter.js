@@ -7,12 +7,8 @@ const trimPattern = (value, pattern) => {
   return value;
 };
 
-export function cardNumberFormatter(
-  oldValue,
-  newValue
-) {
+export function cardNumberFormatter(oldValue, newValue) {
   const pattern = ' ';
-  // user is deleting so return without formatting
   if (oldValue.length > newValue.length) {
     return trimPattern(newValue, pattern);
   }
@@ -26,11 +22,7 @@ export function cardNumberFormatter(
   );
 }
 
-export function expirationDateFormatter(
-  oldValue,
-  newValue
-) {
-  // user is deleting so return without formatting
+export function expirationDateFormatter(oldValue, newValue) {
   if (oldValue.length > newValue.length) {
     return trimPattern(newValue, '/');
   }
